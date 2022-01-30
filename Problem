@@ -1,0 +1,110 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <array>
+
+
+using namespace std;
+
+bool isBigger(int previousLine, int thisLine)
+{
+    if (previousLine == 0)
+    {
+        return false;
+    }
+    else if (thisLine > previousLine)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void loadFile(std::string file, std::vector<int>& vec)
+{
+    
+    int number = 0;
+    ifstream inputFile(file);
+    
+    if (!inputFile) {
+        std::cout << "Failed to load file!" << std::endl;
+    }
+    
+    while (!inputFile.eof())
+    {
+        inputFile >> number;
+        vec.push_back(number);
+
+    }
+    
+    inputFile.close();
+    
+}
+
+bool canCountThree(std::vector<int>& vec, int position)
+{
+    
+    if (vec[position] >= vec.end()[-2])
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+    
+
+}
+
+int main()
+{
+    
+    std::string str;
+    std::vector<int> vecOfInt;
+    std::vector<int> sums;
+    
+    int linesread = 0;
+    int number1, number2, number3;
+    int sum;
+
+    loadFile("Data.txt", vecOfInt);
+    
+    
+    
+    
+    while (canCountThree(vecOfInt, linesread))
+    {
+        
+        number1 = vecOfInt.at(linesread);
+        number2 = vecOfInt.at(linesread+1);
+        number3 = vecOfInt.at(linesread+2);
+    
+        sum = number1 + number2 + number3;
+    
+        sums.push_back(sum);
+        
+        linesread++;
+    }
+    
+    int increments = 0;
+    int thisLine = 0;
+    int previousLine = 0;
+    
+    for (int& x : sums)
+    {
+        thisLine = x;
+        
+        if (isBigger(previousLine, thisLine))
+        {
+            increments++;
+        }
+        
+        previousLine = thisLine;
+
+    }
+    
+    std::cout << "INCREMENTS: " << increments << std::endl;
+    return 0;
+}
